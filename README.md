@@ -39,3 +39,5 @@ open [link](http://127.0.0.1:8080)
 
 ###What I would change:
 I'd try out mobx to see how cool that really is, I hear a lot of good things about it.
+I'd also use the spread operator [here](http://redux.js.org/docs/recipes/UsingObjectSpreadOperator.html) but I've found it is hard for people to grok.
+
