@@ -66,8 +66,12 @@ const Button  = React.createClass({
         item.wins += 1;
       }
       item.timeLeft = this.props.data.gameLength;
+      let players = this.props.data.players;
+      players[index] = item;
+      this.setState(Object.assign({},this.props.data,{players}));
       return item;
     });
+    //in a perfect world I wouldn't need this
     this.refresh();
   },
   getWins(){
@@ -84,9 +88,7 @@ const Button  = React.createClass({
     return player ? player.name : '';
   },
   refresh(){
-    //force update on this component
-    this.forceUpdate();
-    //force the parent component to update
+    //force the parent component to update, this is where redux would be nice
     this.props.refresh();
   },
   getMinutes(){
