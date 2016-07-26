@@ -64,13 +64,11 @@ const Button  = React.createClass({
     this.props.data.players.map((item,index)=>{
       if(index !== idx){
         item.wins += 1;
-        //this is a shortcut since we're not using flux
-        this.updatePlayer({timeLeft:this.props.data.gameLength});
-        this.refresh();
       }
+      item.timeLeft = this.props.data.gameLength;
       return item;
     });
-
+    this.refresh();
   },
   getWins(){
     //our state might not be set, so we return 0 if we don't have the player object
