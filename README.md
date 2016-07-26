@@ -3,7 +3,7 @@ To run, cd to this directory, then run:
 <code>
  npm install
 </code>
-Verify that your node_modules folder exists, then run "npm start" for hot reloading. for build, run "npm build", per the package.json  This didn't generate a file for me, so it might be a bug in Dan's code.
+Verify that your node_modules folder exists, then run "npm start" for hot reloading. for build, run "npm build", per the package.json.
 
 I wrote this without using redux, though this was a prime use case for using it.  I thought about an excuse to try out mobx, but again decided against any sort of state management helper.
 
