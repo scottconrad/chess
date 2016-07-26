@@ -3,7 +3,6 @@ import './App.css';
 import Button from './components/Button';
 import state from './state/App';
 
-
 let App = React.createClass({
   getInitialState(){
     return state;
@@ -12,7 +11,7 @@ let App = React.createClass({
     this.forceUpdate();
   },
   handleResetTimer(){
-    this.state.players.map((item,index)=>{
+    this.state.players.map((item)=>{
       item.timeLeft = this.state.gameLength;
       if(item.timer){
         clearInterval(item.timer);
@@ -23,6 +22,7 @@ let App = React.createClass({
     this.refresh();
   },
   render() {
+    //i need this intermediary variable here due to => not getting back to this since it is inside of the ()'s
     const refresh = this.refresh;
     return (
       <div className="App">
