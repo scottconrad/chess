@@ -9,10 +9,13 @@ By structuring the store with an array of players, that did make the state manag
 For quick debugging, I went ahead and abstracted out the gamelength from the state and put it as a constant. This also allows Javier to test it easily without having to wait 4 minutes.
 
 To use the built in server from npm, run:
+
 ```npm install -g http-server
+
 
 change directory to build, then run:
 ```hs
+
 
 It will list urls to view the server, in my case http://127.0.0.1:8080/
 
