@@ -25,11 +25,8 @@ const Button  = React.createClass({
     this.updatePlayer(data,this.getOpponentIndex());
   },
   updatePlayer(data,targetIndex){
-    console.log('targetIndex == ',targetIndex);
     let targetedIndex = (targetIndex !== undefined) ? targetIndex : this.getIndex();
-    console.log('the targeted index is',targetedIndex);
     let player = this.getPlayer(targetedIndex);
-    console.log('player is','updatePlayer',player);
     let updatedPlayerObject = this.props.data.players;
     updatedPlayerObject[targetedIndex] = Object.assign({},player,data);
     this.setState(Object.assign({},this.props.data,{players:updatedPlayerObject}));
