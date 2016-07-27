@@ -1,4 +1,4 @@
-const gamelength = 3;
+const gamelength = 240;
 let player = {name: 'Player 1', wins: 0, timeLeft: gamelength,timer:null};
 let state = {
   counter:0,
