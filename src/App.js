@@ -11,14 +11,17 @@ let App = React.createClass({
     this.forceUpdate();
   },
   handleResetTimer(){
-    this.state.players.map((item)=>{
+    let players = [];
+    state.players.map((item)=>{
       item.timeLeft = this.state.gameLength;
       if(item.timer){
         clearInterval(item.timer);
         item.timer = null;
       }
+      players.push(item);
       return item;
     });
+    this.setState(Object.assign({},state,{'players':players}));
     this.refresh();
   },
   render() {

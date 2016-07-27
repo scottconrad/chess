@@ -1,5 +1,5 @@
 import React from 'react';
-
+  let timers = [];
 const Button  = React.createClass({
   propTypes:{
     data: React.PropTypes.object,
@@ -15,45 +15,44 @@ const Button  = React.createClass({
     this.stopAllTimers();
     this.startTimer();
   },
-  updatePlayer(data){
-    //get the player in the state
-    this.props.data.players.map((item,idx) => {
-      if(idx === this.getIndex()) return null;
-      if(item.timer){
-        //we have a timer so we clear it
-        clearInterval(item.timer);
-        //i am not sure if this is necessary
-        item.timer = null;
-      }
-      return item;
-    });
-    let player = this.getPlayer();
+  getOpponentIndex(){
+    return this.getIndex() === 1 ? 0 : 1;
+  },
+  getOpponent(){
+    return this.props.data.players[this.getOpponentIndex()];
+  },
+  updateOpponent(data){
+    this.updatePlayer(data,this.getOpponentIndex());
+  },
+  updatePlayer(data,targetIndex){
+    let targetedIndex = targetIndex !== undefined ? targetIndex : this.getIndex();
+    let player = this.getPlayer(targetedIndex);
     let updatedPlayerObject = this.props.data.players;
-    updatedPlayerObject[this.getIndex()] = Object.assign({},player,data);
+    updatedPlayerObject[targetedIndex] = Object.assign({},player,data);
     this.setState(Object.assign({},this.props.data,{players:updatedPlayerObject}));
   },
   startTimer(){
+    this.stopAllTimers();
     //set the timer, assign it to the player
-    const timer = setInterval(()=>{
-      let timeLeft = this.getPlayer().timeLeft - 1;
-      this.updatePlayer({timeLeft: timeLeft});
+    let timer = setInterval(()=>{
+      let timeLeft = this.getOpponent().timeLeft - 1;
+      this.updateOpponent({timeLeft: timeLeft});
       if(timeLeft === 0){ //the other player(s) should get a win
         this.updateScore(this.getIndex());
-        this.stopTimer();
+        this.stopAllTimers();
       }
+      this.refresh();
     },1000);
-    this.updatePlayer({timer: timer});
+    timers.push(timer);
+    this.updateOpponent({timer: timer});
   },
   stopTimer(){
-    clearInterval(this.getPlayer().timer);
+    if(this.getPlayer().timer) clearInterval(this.getPlayer().timer);
+    this.updatePlayer({timer:null});
   },
   stopAllTimers(){
-    this.props.data.players.map((player)=>{
-      if(player.timer){
-        clearInterval(player.timer);
-        player.timer = null;
-      }
-      return player;
+    timers.forEach(function(item){
+      clearInterval(item);
     });
   },
   getIndex(){
@@ -61,16 +60,19 @@ const Button  = React.createClass({
     return parseInt(this.props.in, 10);
   },
   updateScore(idx){
+    this.stopAllTimers();
+    let players = [];
     this.props.data.players.map((item,index)=>{
-      if(index !== idx){
+      if(index === idx){
         item.wins += 1;
       }
+      //get the player gamelength back to default
       item.timeLeft = this.props.data.gameLength;
-      let players = this.props.data.players;
       players[index] = item;
-      this.setState(Object.assign({},this.props.data,{players}));
       return item;
+
     });
+    this.setState(Object.assign({},this.props.data,{'players':players}));
     //in a perfect world I wouldn't need this
     this.refresh();
   },
@@ -79,9 +81,10 @@ const Button  = React.createClass({
     if(!this.getPlayer()) return 0;
     return this.getPlayer().wins;
   },
-  getPlayer(){
+  getPlayer(targetedIndex){
+    let targetIndex = targetedIndex ? targetedIndex : this.getIndex();
     if (!this.props || !this.props.data || !this.props.data.players) return {};
-    return this.props.data.players[this.getIndex()];
+    return this.props.data.players[targetIndex];
   },
   getPlayerName(){
     const player = this.getPlayer();
