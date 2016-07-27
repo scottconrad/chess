@@ -25,8 +25,11 @@ const Button  = React.createClass({
     this.updatePlayer(data,this.getOpponentIndex());
   },
   updatePlayer(data,targetIndex){
-    let targetedIndex = targetIndex !== undefined ? targetIndex : this.getIndex();
+    console.log('targetIndex == ',targetIndex);
+    let targetedIndex = (targetIndex !== undefined) ? targetIndex : this.getIndex();
+    console.log('the targeted index is',targetedIndex);
     let player = this.getPlayer(targetedIndex);
+    console.log('player is','updatePlayer',player);
     let updatedPlayerObject = this.props.data.players;
     updatedPlayerObject[targetedIndex] = Object.assign({},player,data);
     this.setState(Object.assign({},this.props.data,{players:updatedPlayerObject}));
@@ -68,7 +71,7 @@ const Button  = React.createClass({
       }
       //get the player gamelength back to default
       item.timeLeft = this.props.data.gameLength;
-      players[index] = item;
+      players.push(item);
       return item;
 
     });
@@ -82,13 +85,12 @@ const Button  = React.createClass({
     return this.getPlayer().wins;
   },
   getPlayer(targetedIndex){
-    let targetIndex = targetedIndex ? targetedIndex : this.getIndex();
+    let targetIndex = (targetedIndex !== undefined) ? targetedIndex : this.getIndex();
     if (!this.props || !this.props.data || !this.props.data.players) return {};
     return this.props.data.players[targetIndex];
   },
   getPlayerName(){
-    const player = this.getPlayer();
-    return player ? player.name : '';
+    return this.props.name ? this.props.name : '';
   },
   refresh(){
     //force the parent component to update, this is where redux would be nice
@@ -106,7 +108,7 @@ const Button  = React.createClass({
   render(){
     return (
       <div>
-        <button onClick={this.handlePlayerClick}>{this.getPlayerName()}</button>
+        <button onClick={this.handlePlayerClick}>{this.props.name}</button>
         <p>Time Left: {this.getCountdown()} seconds</p>
         <p>{this.getMinutes()}:{this.getSeconds()}</p>
         <p></p>

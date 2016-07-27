@@ -32,8 +32,9 @@ let App = React.createClass({
         <div className="center-text"><h2>Chess</h2>
           {
             state.players.map((item,idx) => {
+              const name = item.name;
               return (
-                <div key={idx} className="column" ><Button in={idx} refresh={refresh} data={state} /></div>
+                <div key={idx} className="column" ><Button in={idx} name={name} refresh={refresh} data={state} /></div>
               )
             })
           }
