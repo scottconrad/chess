@@ -23,8 +23,11 @@ describe('<Button />', () => {
   });
 
   it('should return 240 seconds for game length', ()=> {
+    //this is actually a great test since I sometimes reset the game length to 3 for manual testing
     expect(state.gameLength).to.eql(240);
   });
+
+
 
 
 
